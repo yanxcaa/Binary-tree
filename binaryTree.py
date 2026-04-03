@@ -1,13 +1,6 @@
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-        
-        
-    def __str__(self):
-        return f"Node({self.value})"
-    
+from node import Node
+import time
+
 class BinarySearchTree:
     def __init__(self):
         self.root = None
@@ -91,4 +84,12 @@ if __name__ == "__main__":
         tree.insert(x)
         
     print("Binary Search Tree Structure:")
+    tree.display()
+    
+    print(f"\n Searching for 40: {'Found' if tree.search(40) else 'Not found'}")
+    time.sleep(2)
+    
+    print("\n Deleting 60...")
+    time.sleep(2)
+    tree.delete(60)
     tree.display()
