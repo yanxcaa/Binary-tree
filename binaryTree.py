@@ -1,5 +1,6 @@
 from node import Node
 import time
+import random
 
 class BinarySearchTree:
     def __init__(self):
@@ -14,12 +15,12 @@ class BinarySearchTree:
     def _insert_recursive(self, current, value):
         if value < current.value:
             if current.left is None:
-                current.left = value
+                current.left = Node(value)
             else:
                 self._insert_recursive(current.left, value)
         elif value > current.value:
             if current.right is None:
-                current.right = value
+                current.right = Node(value)
             else:
                 self._insert_recursive(current.right, value)
         else:
@@ -30,10 +31,10 @@ class BinarySearchTree:
     
     def _search_recursive(self, current, value):
         if current is None:
-            return False
+            return 'Not found'
         
         if current.value == value:
-            return True
+            return 'Found'
         elif value < current.value:
             return self._search_recursive(current.left, value)
         else:
@@ -41,11 +42,15 @@ class BinarySearchTree:
         
         
     def delete(self, value):
-        return self._delete_recursive(self.root, value)
-  
+        if self.search(value) == "Found":
+            self.root = self._delete_recursive(self.root, value) 
+            return True
+        
+        return False
+          
     def _delete_recursive(self, current, value):
-        if current in None:
-            return False
+        if current is None:
+            return
         
         if value < current.value:
             current.left = self._delete_recursive(current.left, value)
@@ -76,20 +81,34 @@ class BinarySearchTree:
             self.display(node.right, level + 1) 
             print(' ' * 4 * level + '->', node.value)
             self.display(node.left, level + 1)
-        
-if __name__ == "__main__":
+            
+def generate_array():
+    elements = []
+    
+    for _ in range(20):
+        elements.append(random.randint(1, 15))
+    
+    return elements
+            
+def main():
     tree = BinarySearchTree()
-    elements = [50, 30, 70, 20, 40, 60, 80]
+    elements =  generate_array()
+        
     for x in elements:
         tree.insert(x)
         
     print("Binary Search Tree Structure:")
     tree.display()
     
-    print(f"\n Searching for 40: {'Found' if tree.search(40) else 'Not found'}")
+    print(f"\n Searching for 5: {tree.search(5)}")
     time.sleep(2)
     
-    print("\n Deleting 60...")
+    print("\n Deleting 5... ")
     time.sleep(2)
-    tree.delete(60)
-    tree.display()
+    if tree.delete(5):
+        tree.display()
+    else:
+        print('Not found')
+        
+if __name__ == "__main__":
+    main()
